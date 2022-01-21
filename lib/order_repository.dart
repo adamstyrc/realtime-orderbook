@@ -1,27 +1,40 @@
 import 'dart:async';
 
 import 'package:adam_kraken_task/environment.dart';
+import 'package:adam_kraken_task/models/order_item.dart';
 import 'package:adam_kraken_task/models/orderbook_message.dart';
+import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/io.dart';
 
 class OrderRepository {
-  IOWebSocketChannel? channel;
+  Stream<OrderItem> getOrdersStream() {
+    return _createOrderSteamController().stream;
+  }
 
-  final ordersStream = StreamController(
-    onListen: () {},
-  );
+  StreamController<OrderItem> _createOrderSteamController() {
+    final streamController = StreamController<OrderItem>();
+    return streamController
+      ..onListen = () {
+        debugPrint('[OrderRepository] onListen');
 
-  OrderRepository();
+        final channel = IOWebSocketChannel.connect(Uri.parse(Environment.websocketUrl));
+        channel.sink.add(OrderbookMessage(
+          event: 'subscribe',
+          feed: 'book',
+          productIds: ['PI_XBTUSD'],
+        ).toEncodedJson());
 
-  Stream observeOrders() {
-    final channel = IOWebSocketChannel.connect(Uri.parse(Environment.websocketUrl));
-    channel.sink.add(OrderbookMessage(
-      event: 'subscribe',
-      feed: 'book',
-      productIds: ['PI_XBTUSD'],
-    ).toEncodedJson());
+        channel.stream.listen((data) {
+          final orderItem = OrderItem.fromData(data);
+          if (orderItem != null) {
+            streamController.sink.add(orderItem);
+          }
+        });
 
-    this.channel = channel;
-    return channel.stream;
+        streamController.onCancel = () {
+          debugPrint('[OrderRepository] onCancel');
+          channel.sink.close();
+        };
+      };
   }
 }

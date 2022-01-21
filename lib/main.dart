@@ -1,18 +1,19 @@
 import 'package:adam_kraken_task/home_page.dart';
-import 'package:adam_kraken_task/models/order_item.dart';
 import 'package:adam_kraken_task/order_repository.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
 
   final orderRepository = OrderRepository();
-  orderRepository.observeOrders().listen((data) {
-    final orderItem = OrderItem.fromData(data);
-    if (orderItem != null) {
-      print(orderItem.toJson());
-    }
+  final ordersStream = orderRepository.getOrdersStream();
+
+  final subscription = ordersStream.listen((orderItem) {
+    print('OrderItem: ${orderItem.toJson()}');
   });
+
+  await Future.delayed(const Duration(seconds: 2));
+  subscription.cancel();
 }
 
 class MyApp extends StatelessWidget {
