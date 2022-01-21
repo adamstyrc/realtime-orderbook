@@ -1,8 +1,18 @@
 import 'package:adam_kraken_task/home_page.dart';
+import 'package:adam_kraken_task/models/order_item.dart';
+import 'package:adam_kraken_task/order_repository.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
+
+  final orderRepository = OrderRepository();
+  orderRepository.observeOrders().listen((data) {
+    final orderItem = OrderItem.fromData(data);
+    if (orderItem != null) {
+      print(orderItem.toJson());
+    }
+  });
 }
 
 class MyApp extends StatelessWidget {
