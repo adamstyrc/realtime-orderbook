@@ -13,17 +13,19 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final viewModel = HomeViewModel(getIt<OrderRepository>());
 
   @override
   void initState() {
     super.initState();
     viewModel.init();
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
     viewModel.close();
     super.dispose();
   }
@@ -50,6 +52,20 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        viewModel.resume();
+        break;
+      case AppLifecycleState.paused:
+        viewModel.pause();
+        break;
+      default:
+        break;
+    }
   }
 
   Widget _ordersList(List<OrderItem> items) {

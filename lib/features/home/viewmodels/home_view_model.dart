@@ -25,16 +25,33 @@ abstract class HomeViewModelBase with Store {
   HomeViewModelBase(this.orderRepository);
 
   void init() {
-    final ordersStream = orderRepository.getOrdersStream();
-
-    subscription = ordersStream.listen((orderItem) {
-      _addOrderItem(orderItem);
-      debugPrint('OrderItem: ${orderItem.toJson()}');
-    });
+    _observeOrders();
   }
 
   void close() {
     subscription?.cancel();
+  }
+
+  void resume() {
+    debugPrint('resume');
+    _observeOrders();
+  }
+
+  void pause() {
+    debugPrint('pause');
+    subscription?.cancel();
+  }
+
+  void onItemTap(OrderItem orderItem) {
+    quantityTextController.text = orderItem.displayQuantity;
+  }
+
+  void _observeOrders() {
+    subscription?.cancel();
+    final ordersStream = orderRepository.getOrdersStream();
+    subscription = ordersStream.listen((orderItem) {
+      _addOrderItem(orderItem);
+    });
   }
 
   @action
@@ -47,10 +64,6 @@ abstract class HomeViewModelBase with Store {
         buyItems = _generateNewList(buyItems, orderItem);
         break;
     }
-  }
-
-  void onItemTap(OrderItem orderItem) {
-    quantityTextController.text = orderItem.displayQuantity;
   }
 
   List<OrderItem> _generateNewList(List<OrderItem> currentList, OrderItem newItem) {
