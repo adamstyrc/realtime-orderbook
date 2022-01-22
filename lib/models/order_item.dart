@@ -29,8 +29,8 @@ class OrderItem {
     required this.quantity,
   });
 
-  String get formattedPrice => price.toStringAsFixed(2);
-  String get formattedQuantity => quantity.toStringAsFixed(3);
+  String get displayedPrice => price.toStringAsFixed(2);
+  String get displayQuantity => quantity.toStringAsFixed(3);
 
   static OrderItem? fromData(data) {
     try {

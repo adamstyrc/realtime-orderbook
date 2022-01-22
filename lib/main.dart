@@ -1,19 +1,8 @@
-import 'package:adam_kraken_task/home_page.dart';
-import 'package:adam_kraken_task/order_repository.dart';
+import 'package:adam_kraken_task/ui/home_page.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
   runApp(const MyApp());
-
-  final orderRepository = OrderRepository();
-  final ordersStream = orderRepository.getOrdersStream();
-
-  final subscription = ordersStream.listen((orderItem) {
-    print('OrderItem: ${orderItem.toJson()}');
-  });
-
-  await Future.delayed(const Duration(seconds: 2));
-  subscription.cancel();
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(),
     );
   }
 }
