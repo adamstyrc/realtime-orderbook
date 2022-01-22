@@ -1,8 +1,8 @@
 import 'package:adam_kraken_task/di/service_locator.dart';
+import 'package:adam_kraken_task/features/home/ui/order_item_tile.dart';
+import 'package:adam_kraken_task/features/home/viewmodels/home_view_model.dart';
 import 'package:adam_kraken_task/models/order_item.dart';
-import 'package:adam_kraken_task/order_repository.dart';
-import 'package:adam_kraken_task/ui/order_item_tile.dart';
-import 'package:adam_kraken_task/viewmodels/home_view_model.dart';
+import 'package:adam_kraken_task/repositories/order_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 

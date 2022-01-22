@@ -1,5 +1,5 @@
 import 'package:adam_kraken_task/di/service_locator.dart';
-import 'package:adam_kraken_task/ui/home_page.dart';
+import 'package:adam_kraken_task/features/home/ui/home_page.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {

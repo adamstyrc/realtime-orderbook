@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:adam_kraken_task/environment.dart';
+import 'package:adam_kraken_task/api/api_config.dart';
 import 'package:adam_kraken_task/models/order_item.dart';
-import 'package:adam_kraken_task/models/orderbook_message.dart';
+import 'package:adam_kraken_task/api/messages/orderbook_message.dart';
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/io.dart';
 
@@ -17,7 +17,7 @@ class OrderRepository {
       ..onListen = () {
         debugPrint('[OrderRepository] onListen');
 
-        final channel = IOWebSocketChannel.connect(Uri.parse(Environment.websocketUrl));
+        final channel = IOWebSocketChannel.connect(Uri.parse(ApiConfig.krakenWebsocketUrl));
         channel.sink.add(OrderbookMessage(
           event: 'subscribe',
           feed: 'book',

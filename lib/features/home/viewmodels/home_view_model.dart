@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:adam_kraken_task/models/order_item.dart';
-import 'package:adam_kraken_task/order_repository.dart';
+import 'package:adam_kraken_task/repositories/order_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
