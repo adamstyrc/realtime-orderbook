@@ -31,10 +31,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        toolbarHeight: 180,
+        toolbarHeight: 100,
         title: Column(
           children: [
-            // _quantityField(),
+            _quantityField(),
             const SizedBox(height: 20),
           ],
         ),
@@ -57,6 +57,14 @@ class _HomePageState extends State<HomePage> {
         final item = items[index];
         return OrderItemTile(item: item, onTap: () => widget.viewModel.onItemTap(item));
       },
+    );
+  }
+
+  Widget _quantityField() {
+    return TextField(
+      decoration: const InputDecoration(labelText: 'Quantity'),
+      controller: widget.viewModel.quantityTextController,
+      keyboardType: TextInputType.number,
     );
   }
 }

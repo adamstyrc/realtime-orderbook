@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:adam_kraken_task/models/order_item.dart';
 import 'package:adam_kraken_task/order_repository.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
 part 'home_view_model.g.dart';
@@ -19,6 +20,8 @@ abstract class HomeViewModelBase with Store {
   var buyItems = List<OrderItem>.of([]);
 
   StreamSubscription? subscription;
+
+  final quantityTextController = TextEditingController();
 
   void init() {
     final orderRepository = OrderRepository();
@@ -46,7 +49,9 @@ abstract class HomeViewModelBase with Store {
     }
   }
 
-  void onItemTap(OrderItem orderItem) {}
+  void onItemTap(OrderItem orderItem) {
+    quantityTextController.text = orderItem.displayQuantity;
+  }
 
   List<OrderItem> _generateNewList(List<OrderItem> currentList, OrderItem newItem) {
     final newList = [newItem, ...currentList];
