@@ -1,6 +1,6 @@
-# adam_kraken_task
+# Flutter: Handling heavy realtime data UI updates
 
-Challange from Kraken company for handling lots of data from a websocket.
+This is a showcase project in Flutter to expose my approach on Flutter architecture with special aspect of websocket handling and reactive UI architecture.
 
 ## Getting Started
 
